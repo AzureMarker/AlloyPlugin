@@ -12,6 +12,7 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation files("libs/org.alloytools.alloy.dist.jar")
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
