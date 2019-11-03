@@ -1,0 +1,16 @@
+<idea-plugin>
+    <id>com.rit.csci746.alloy-plugin</id>
+    <name>Alloy</name>
+    <vendor>RIT CSCI746</vendor>
+
+    <description><![CDATA[
+      Adds support for the <a href="http://alloytools.org/">Alloy</a> modeling language.<br>
+    ]]></description>
+
+    <!-- Enable plugin in all products -->
+    <depends>com.intellij.modules.lang</depends>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+</idea-plugin>
