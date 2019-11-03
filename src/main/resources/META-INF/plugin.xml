@@ -10,6 +10,12 @@
     <!-- Enable plugin in all products -->
     <depends>com.intellij.modules.lang</depends>
 
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="Alloy"
+                  extensions="als"
+                  implementationClass="edu.rit.csci746.alloyplugin.AlloyFileType"/>
+    </extensions>
+
     <actions>
         <group id="AlloyPlugin.SampleMenu" text="Greeting" description="Greeting menu">
             <add-to-group group-id="MainMenu" anchor="last"/>
