@@ -4,7 +4,7 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.fileTypes.LanguageFileType
 import javax.swing.Icon
 
-class AlloyFileType : LanguageFileType(AlloyLanguage) {
+object AlloyFileType : LanguageFileType(AlloyLanguage) {
     override fun getIcon(): Icon? = AllIcons.FileTypes.Custom
 
     override fun getName(): String = language.displayName

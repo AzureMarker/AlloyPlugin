@@ -1,0 +1,189 @@
+{
+  parserClass="edu.rit.csci746.alloyplugin.parser.AlloyParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Alloy"
+  psiImplClassSuffix="Impl"
+  psiPackage="edu.rit.csci746.alloyplugin.psi"
+  psiImplPackage="edu.rit.csci746.alloyplugin.psi.impl"
+
+  elementTypeHolderClass="edu.rit.csci746.alloyplugin.psi.AlloyTypes"
+  elementTypeClass="edu.rit.csci746.alloyplugin.psi.AlloyElementType"
+  tokenTypeClass="edu.rit.csci746.alloyplugin.psi.AlloyTokenType"
+
+  extends(".*[eE]xpr")=expr
+
+  tokens=[
+    COMMENT     ="regexp:/\*[^*]~\*/|/\*+\*/|//.*\R?"
+    NOT         ="regexp:!|not"
+    HASH        ="#"
+    AND         ="regexp:&&|and"
+    AMPERSAND   ="&"
+    LPAREN      ="("
+    RPAREN      =")"
+    STAR        ="*"
+    PLUSPLUS    ="++"
+    PLUS        ="+"
+    COMMA       =","
+    ARROW       ="->"
+    MINUS       ="-"
+    DOT         ="regexp:\.|::"
+    SLASH       ="/"
+    RANGE       =":>"
+    COLON       =":"
+    IFF         ="regexp:<=>|iff"
+    LTE         ="regexp:<=|=<"
+    DOMAIN      ="<:"
+    SHL         ="<<"
+    LT          ="<"
+    IMPLIES     ="regexp:=>|implies"
+    EQUALS      ="="
+    SHR         =">>>"
+    SHA         =">>"
+    GTE         =">="
+    GT          =">"
+    AT          ="@"
+    LBRACKET    ="["
+    RBRACKET    ="]"
+    CARET       ="^"
+    LBRACE      ="{"
+    OR          ="regexp:\|\||or"
+    BAR         ="|"
+    RBRACE      ="}"
+    TILDE       ="~"
+    ABSTRACT    ="abstract"
+    ALL         ="all"
+    ASSERT      ="assert"
+    AS          ="as"
+    BUT         ="but"
+    CHECK       ="check"
+    DISJ        ="regexp:disjoint|disj"
+    ELSE        ="else"
+    ENUM        ="enum"
+    EXACTLY     ="exactly"
+    EXH         ="regexp:exhaustive|exh"
+    EXPECT      ="expect"
+    EXTENDS     ="extends"
+    FACT        ="fact"
+    FOR         ="for"
+    FUN         ="fun"
+    IDEN        ="iden"
+    SIGINT      ="Int"
+    INT         ="int"
+    IN          ="in"
+    LET         ="let"
+    LONE        ="lone"
+    MODULE      ="module"
+    NONE        ="none"
+    NO          ="no"
+    ONE         ="one"
+    OPEN        ="open"
+    PART        ="regexp:partition|part"
+    PRED        ="pred"
+    PRIVATE     ="private"
+    RUN         ="run"
+    SEQ         ="seq"
+    SET         ="set"
+    SIG         ="sig"
+    SOME        ="some"
+    STRING      ="String"
+    SUM         ="sum"
+    THIS        ="this"
+    UNIV        ="univ"
+    NUMBER      ="regexp:[0-9]+"
+    ID          ="regexp:[a-zA-Z][a-zA-Z0-9_'\"]*"
+    // Used to fix Live Preview messing up on whitespace
+    space       ="regexp:\s+"
+  ]
+}
+
+specification ::= [module_rule] open_rule* paragraph*
+
+meta comma_separated_list ::= <<param>> ( COMMA <<param>> ) *
+
+module_rule ::= MODULE name_rule  [ LBRACKET  [EXACTLY] name_rule  (COMMA [EXACTLY] num)*    RBRACKET ]
+
+open_rule ::= [PRIVATE]  OPEN  name_rule  [ LBRACKET <<comma_separated_list ref>> RBRACKET ]  [ AS name_rule ]
+
+paragraph ::= factDecl | assertDecl | funDecl | cmdDecl | enumDecl | sigDecl
+
+factDecl ::= FACT [name_rule] block
+
+assertDecl ::= ASSERT [name_rule] block
+
+funDecl ::= [PRIVATE] FUN [ref DOT] name_rule LPAREN <<comma_separated_list decl>> RPAREN COLON expr block
+          | [PRIVATE] FUN [ref DOT] name_rule LBRACKET <<comma_separated_list decl>> RBRACKET COLON expr block
+          | [PRIVATE] FUN [ref DOT] name_rule                COLON expr block
+          | [PRIVATE] PRED [ref DOT] name_rule LPAREN <<comma_separated_list decl>> LPAREN block
+          | [PRIVATE] PRED [ref DOT] name_rule LBRACKET <<comma_separated_list decl>> RBRACKET block
+          | [PRIVATE] PRED [ref DOT] name_rule                block
+
+cmdDecl ::= [name_rule COLON] (RUN|CHECK) (name_rule|block) [scope]
+
+// TODO: Is EXPECT valid? It does not appear in the Alloy grammar documentation
+scope ::= FOR NUMBER [BUT <<comma_separated_list typescope>>] //[EXPECT (0|1)]
+        | FOR             <<comma_separated_list typescope>>  //[EXPECT (0|1)]
+//        | [EXPECT (0|1)]
+
+typescope ::= [EXACTLY] NUMBER [name_rule|INT|SEQ]
+
+sigDecl ::= sigQual* SIG <<comma_separated_list name_rule>> [sigExt] LBRACE <<comma_separated_list decl>>? RBRACE [block]
+
+enumDecl ::= ENUM name_rule LBRACE <<comma_separated_list name_rule>>  RBRACE
+
+sigQual ::= ABSTRACT | LONE | ONE | SOME | PRIVATE
+
+sigExt ::= EXTENDS ref
+         | IN ref (PLUS ref)*
+
+expr ::= bin_op_expr | arrow_op_expr | compare_op_expr | implies_expr | bracket_expr | terminal_expr
+
+// Infix expressions
+bin_op_expr ::= expr binOp expr
+arrow_op_expr ::= expr arrowOp expr {extends=expr}
+compare_op_expr ::= expr [NOT] compareOp expr
+implies_expr ::= expr IMPLIES expr ELSE expr
+bracket_expr ::= expr LBRACKET <<comma_separated_list expr>> RBRACKET
+
+// Terminal (starts with terminal) expressions
+terminal_expr ::= LET <<comma_separated_list letDecl>> blockOrBar
+       | quant <<comma_separated_list decl>>    blockOrBar
+       | unOp expr
+       | NUMBER
+       | MINUS NUMBER
+       | NONE
+       | IDEN
+       | UNIV
+       | INT
+       | SEQ
+       // TODO: What is "seq/Int"?
+//       | "seq/Int"
+       | LPAREN expr RPAREN
+       | [AT] name_rule
+       | block
+       | LBRACE <<comma_separated_list decl>> blockOrBar RBRACE
+
+decl ::= [PRIVATE] [DISJ] <<comma_separated_list name_rule>> COLON [DISJ] expr
+
+letDecl ::= name_rule EQUALS expr
+
+quant ::= ALL | NO | SOME | LONE | ONE | SUM
+
+binOp ::= OR | AND | AMPERSAND | IFF
+        | IMPLIES | PLUS | MINUS | PLUSPLUS | DOMAIN | RANGE | DOT | SHL | SHA | SHR
+
+arrowOp ::= [SOME|ONE|LONE|SET] ARROW [SOME|ONE|LONE|SET]
+
+compareOp ::= EQUALS | IN | LT | GT | LTE | GTE
+
+unOp ::= NOT | NO | SOME | LONE | ONE | SET | SEQ | HASH | TILDE | STAR | CARET
+
+block ::= LBRACE expr* RBRACE
+
+blockOrBar ::= block
+             | BAR expr
+
+name_rule ::= (THIS | ID) (SLASH ID)*
+
+ref ::= name_rule | UNIV | INT | SEQ // "seq/Int"

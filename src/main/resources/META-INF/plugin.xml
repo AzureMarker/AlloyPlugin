@@ -14,6 +14,9 @@
         <fileType name="Alloy"
                   extensions="als"
                   implementationClass="edu.rit.csci746.alloyplugin.AlloyFileType"/>
+        <lang.parserDefinition
+                language="Alloy"
+                implementationClass="edu.rit.csci746.alloyplugin.AlloyParserDefinition"/>
     </extensions>
 
     <actions>
