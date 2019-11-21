@@ -6,7 +6,7 @@ import edu.rit.csci746.alloyplugin.AlloyLanguage
 
 class AlloyTokenType(debugName: String): IElementType(debugName, AlloyLanguage)
 
-val ALLOY_KEYWORDS = tokenSetOf(
+val ALLOY_KEYWORDS = TokenSet.create(
     AlloyTypes.ABSTRACT,
     AlloyTypes.ALL,
     AlloyTypes.ASSERT,
@@ -43,7 +43,7 @@ val ALLOY_KEYWORDS = tokenSetOf(
     AlloyTypes.NUM
 )
 
-val ALLOY_OPERATORS = tokenSetOf(
+val ALLOY_OPERATORS = TokenSet.create(
     AlloyTypes.HASH,
     AlloyTypes.AMPERSAND,
     AlloyTypes.STAR,
@@ -68,6 +68,3 @@ val ALLOY_OPERATORS = tokenSetOf(
     AlloyTypes.BAR,
     AlloyTypes.TILDE
 )
-
-fun tokenSetOf(vararg tokens: IElementType) = TokenSet.create(*tokens)
-
