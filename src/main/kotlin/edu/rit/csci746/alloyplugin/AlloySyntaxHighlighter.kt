@@ -10,8 +10,8 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.tree.IElementType
 import edu.rit.csci746.alloyplugin.psi.ALLOY_KEYWORDS
 import edu.rit.csci746.alloyplugin.psi.ALLOY_OPERATORS
-import com.intellij.openapi.editor.DefaultLanguageHighlighterColors as Default
 import edu.rit.csci746.alloyplugin.psi.AlloyTypes
+import com.intellij.openapi.editor.DefaultLanguageHighlighterColors as Default
 
 enum class AlloyColor(default: TextAttributesKey) {
     LINE_COMMENT(Default.LINE_COMMENT),
@@ -27,9 +27,6 @@ enum class AlloyColor(default: TextAttributesKey) {
 }
 
 class AlloySyntaxHighlighter : SyntaxHighlighterBase() {
-    override fun getHighlightingLexer(): Lexer =
-        AlloyLexerAdapter()
-
     companion object {
         fun map(tokenType: IElementType?): AlloyColor? =
             when (tokenType) {
@@ -47,6 +44,9 @@ class AlloySyntaxHighlighter : SyntaxHighlighterBase() {
 
     override fun getTokenHighlights(tokenType: IElementType?): Array<TextAttributesKey> =
         pack(map(tokenType)?.textAttributesKey)
+
+    override fun getHighlightingLexer(): Lexer =
+        AlloyLexerAdapter()
 }
 
 class AlloySyntaxHighlighterFactory: SyntaxHighlighterFactory() {
