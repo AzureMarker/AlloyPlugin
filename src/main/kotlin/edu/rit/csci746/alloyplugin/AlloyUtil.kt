@@ -10,7 +10,7 @@ import edu.rit.csci746.alloyplugin.psi.AlloySigDecl
 
 object AlloyUtil {
     fun findSigDeclaration(project: Project, name: String): AlloySigDecl? {
-        return findSigDeclarations(project).filter { it.name == name }.firstOrNull()
+        return findSigDeclarations(project).firstOrNull { it.name == name }
     }
 
     fun findSigDeclarations(project: Project): List<AlloySigDecl> {
