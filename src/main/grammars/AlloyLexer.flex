@@ -36,8 +36,6 @@ LTE=<=|=<
 IMPLIES==>|implies
 OR=\|\||or
 DISJ=disjoint|disj
-EXH=exhaustive|exh
-PART=partition|part
 NUMBER=[0-9]+
 ID=[a-zA-Z][a-zA-Z0-9_'\"]*
 
@@ -84,13 +82,11 @@ ID=[a-zA-Z][a-zA-Z0-9_'\"]*
   "else"             { return ELSE; }
   "enum"             { return ENUM; }
   "exactly"          { return EXACTLY; }
-  "expect"           { return EXPECT; }
   "extends"          { return EXTENDS; }
   "fact"             { return FACT; }
   "for"              { return FOR; }
   "fun"              { return FUN; }
   "iden"             { return IDEN; }
-  "Int"              { return SIGINT; }
   "int"              { return INT; }
   "in"               { return IN; }
   "let"              { return LET; }
@@ -107,7 +103,6 @@ ID=[a-zA-Z][a-zA-Z0-9_'\"]*
   "set"              { return SET; }
   "sig"              { return SIG; }
   "some"             { return SOME; }
-  "String"           { return STRING; }
   "sum"              { return SUM; }
   "this"             { return THIS; }
   "univ"             { return UNIV; }
@@ -122,8 +117,6 @@ ID=[a-zA-Z][a-zA-Z0-9_'\"]*
   {IMPLIES}          { return IMPLIES; }
   {OR}               { return OR; }
   {DISJ}             { return DISJ; }
-  {EXH}              { return EXH; }
-  {PART}             { return PART; }
   {NUMBER}           { return NUMBER; }
   {ID}               { return ID; }
 }

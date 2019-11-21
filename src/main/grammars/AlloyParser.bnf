@@ -13,89 +13,6 @@
   tokenTypeClass="edu.rit.csci746.alloyplugin.psi.AlloyTokenType"
 
   extends(".*[eE]xpr")=expr
-
-  tokens=[
-    COMMENT     ="regexp:/\*[^*]~\*/|/\*+\*/|//.*\R?"
-    NOT         ="regexp:!|not"
-    HASH        ="#"
-    AND         ="regexp:&&|and"
-    AMPERSAND   ="&"
-    LPAREN      ="("
-    RPAREN      =")"
-    STAR        ="*"
-    PLUSPLUS    ="++"
-    PLUS        ="+"
-    COMMA       =","
-    ARROW       ="->"
-    MINUS       ="-"
-    DOT         ="regexp:\.|::"
-    SLASH       ="/"
-    RANGE       =":>"
-    COLON       =":"
-    IFF         ="regexp:<=>|iff"
-    LTE         ="regexp:<=|=<"
-    DOMAIN      ="<:"
-    SHL         ="<<"
-    LT          ="<"
-    IMPLIES     ="regexp:=>|implies"
-    EQUALS      ="="
-    SHR         =">>>"
-    SHA         =">>"
-    GTE         =">="
-    GT          =">"
-    AT          ="@"
-    LBRACKET    ="["
-    RBRACKET    ="]"
-    CARET       ="^"
-    LBRACE      ="{"
-    OR          ="regexp:\|\||or"
-    BAR         ="|"
-    RBRACE      ="}"
-    TILDE       ="~"
-    ABSTRACT    ="abstract"
-    ALL         ="all"
-    ASSERT      ="assert"
-    AS          ="as"
-    BUT         ="but"
-    CHECK       ="check"
-    DISJ        ="regexp:disjoint|disj"
-    ELSE        ="else"
-    ENUM        ="enum"
-    EXACTLY     ="exactly"
-    EXH         ="regexp:exhaustive|exh"
-    EXPECT      ="expect"
-    EXTENDS     ="extends"
-    FACT        ="fact"
-    FOR         ="for"
-    FUN         ="fun"
-    IDEN        ="iden"
-    SIGINT      ="Int"
-    INT         ="int"
-    IN          ="in"
-    LET         ="let"
-    LONE        ="lone"
-    MODULE      ="module"
-    NONE        ="none"
-    NO          ="no"
-    ONE         ="one"
-    OPEN        ="open"
-    PART        ="regexp:partition|part"
-    PRED        ="pred"
-    PRIVATE     ="private"
-    RUN         ="run"
-    SEQ         ="seq"
-    SET         ="set"
-    SIG         ="sig"
-    SOME        ="some"
-    STRING      ="String"
-    SUM         ="sum"
-    THIS        ="this"
-    UNIV        ="univ"
-    NUMBER      ="regexp:[0-9]+"
-    ID          ="regexp:[a-zA-Z][a-zA-Z0-9_'\"]*"
-    // Used to fix Live Preview messing up on whitespace
-    space       ="regexp:\s+"
-  ]
 }
 
 specification ::= [module_rule] open_rule* paragraph*
@@ -106,7 +23,7 @@ module_rule ::= MODULE name_rule  [ LBRACKET  [EXACTLY] name_rule  (COMMA [EXACT
 
 open_rule ::= [PRIVATE]  OPEN  name_rule  [ LBRACKET <<comma_separated_list ref>> RBRACKET ]  [ AS name_rule ]
 
-paragraph ::= factDecl | assertDecl | funDecl | cmdDecl | enumDecl | sigDecl
+paragraph ::= factDecl | assertDecl | funDecl | cmdDecl | enumDecl | sigDecl | COMMENT
 
 factDecl ::= FACT [name_rule] block
 
