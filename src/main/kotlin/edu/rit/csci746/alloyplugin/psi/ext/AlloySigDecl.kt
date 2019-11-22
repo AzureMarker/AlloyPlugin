@@ -8,19 +8,14 @@ import edu.rit.csci746.alloyplugin.psi.AlloyNameRule
 import edu.rit.csci746.alloyplugin.psi.AlloyNamedElementImpl
 
 abstract class AlloySigDeclMixin(node: ASTNode) : AlloyNamedElementImpl(node) {
-    override fun getName(): String? {
-        return nameIdentifier?.text?.replace("\\\\ ", "")
-    }
+    override fun getName(): String? = nameIdentifier?.text
 
-    override fun setName(name: String): PsiElement {
-        val nameElement = nameIdentifier ?: return this
-        val newNameNode = AlloyElementFactory.createName(project, name).firstChild.node
-
-        nameElement.parent.node.replaceChild(nameElement.node, newNameNode)
+    override fun setName(name: String): PsiElement? {
+        nameIdentifier?.replace(AlloyElementFactory.createName(project, name))
         return this
     }
 
-    override fun getNameIdentifier(): PsiElement? {
-        return PsiTreeUtil.findChildOfType(this, AlloyNameRule::class.java)
-    }
+    override fun getNameIdentifier(): PsiElement? = PsiTreeUtil.findChildOfType(this, AlloyNameRule::class.java)
+
+    override fun getTextOffset(): Int = nameIdentifier?.textOffset ?: super.getTextOffset()
 }
