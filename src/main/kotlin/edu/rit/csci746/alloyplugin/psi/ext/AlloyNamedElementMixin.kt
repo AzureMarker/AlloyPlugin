@@ -7,7 +7,7 @@ import edu.rit.csci746.alloyplugin.psi.AlloyElementFactory
 import edu.rit.csci746.alloyplugin.psi.AlloyNameRule
 import edu.rit.csci746.alloyplugin.psi.AlloyNamedElementImpl
 
-abstract class AlloySigDeclMixin(node: ASTNode) : AlloyNamedElementImpl(node) {
+abstract class AlloyNamedElementMixin(node: ASTNode) : AlloyNamedElementImpl(node) {
     override fun getName(): String? = nameIdentifier?.text
 
     override fun setName(name: String): PsiElement? {

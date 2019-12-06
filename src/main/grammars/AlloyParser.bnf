@@ -25,18 +25,30 @@ open_rule ::= [PRIVATE]  OPEN  name_rule  [ LBRACKET <<comma_separated_list ref>
 
 paragraph ::= factDecl | assertDecl | funDecl | cmdDecl | enumDecl | sigDecl | COMMENT
 
-factDecl ::= FACT [name_rule] block
+factDecl ::= FACT [name_rule] block {
+    implements="edu.rit.csci746.alloyplugin.psi.AlloyNamedElement"
+    mixin="edu.rit.csci746.alloyplugin.psi.ext.AlloyNamedElementMixin"
+}
 
-assertDecl ::= ASSERT [name_rule] block
+assertDecl ::= ASSERT [name_rule] block {
+    implements="edu.rit.csci746.alloyplugin.psi.AlloyNamedElement"
+    mixin="edu.rit.csci746.alloyplugin.psi.ext.AlloyNamedElementMixin"
+}
 
 funDecl ::= [PRIVATE] FUN [ref DOT] name_rule LPAREN <<comma_separated_list decl>> RPAREN COLON expr block
           | [PRIVATE] FUN [ref DOT] name_rule LBRACKET <<comma_separated_list decl>> RBRACKET COLON expr block
-          | [PRIVATE] FUN [ref DOT] name_rule                COLON expr block
+          | [PRIVATE] FUN [ref DOT] name_rule COLON expr block
           | [PRIVATE] PRED [ref DOT] name_rule LPAREN <<comma_separated_list decl>> LPAREN block
           | [PRIVATE] PRED [ref DOT] name_rule LBRACKET <<comma_separated_list decl>> RBRACKET block
-          | [PRIVATE] PRED [ref DOT] name_rule                block
+          | [PRIVATE] PRED [ref DOT] name_rule block {
+    implements="edu.rit.csci746.alloyplugin.psi.AlloyNamedElement"
+    mixin="edu.rit.csci746.alloyplugin.psi.ext.AlloyNamedElementMixin"
+}
 
-cmdDecl ::= [name_rule COLON] (RUN|CHECK) (name_rule|block) [scope]
+cmdDecl ::= [name_rule COLON] (RUN|CHECK) (name_rule|block) [scope] {
+    implements="edu.rit.csci746.alloyplugin.psi.AlloyNamedElement"
+    mixin="edu.rit.csci746.alloyplugin.psi.ext.AlloyNamedElementMixin"
+}
 
 // TODO: Is EXPECT valid? It does not appear in the Alloy grammar documentation
 scope ::= FOR NUMBER [BUT <<comma_separated_list typescope>>] //[EXPECT (0|1)]
@@ -47,10 +59,13 @@ typescope ::= [EXACTLY] NUMBER [name_rule|INT|SEQ]
 
 sigDecl ::= sigQual* SIG <<comma_separated_list name_rule>> [sigExt] LBRACE <<comma_separated_list decl>>? RBRACE [block] {
     implements="edu.rit.csci746.alloyplugin.psi.AlloyNamedElement"
-    mixin="edu.rit.csci746.alloyplugin.psi.ext.AlloySigDeclMixin"
+    mixin="edu.rit.csci746.alloyplugin.psi.ext.AlloyNamedElementMixin"
 }
 
-enumDecl ::= ENUM name_rule LBRACE <<comma_separated_list name_rule>>  RBRACE
+enumDecl ::= ENUM name_rule LBRACE <<comma_separated_list name_rule>>  RBRACE {
+    implements="edu.rit.csci746.alloyplugin.psi.AlloyNamedElement"
+    mixin="edu.rit.csci746.alloyplugin.psi.ext.AlloyNamedElementMixin"
+}
 
 sigQual ::= ABSTRACT | LONE | ONE | SOME | PRIVATE
 
@@ -84,9 +99,15 @@ terminal_expr ::= LET <<comma_separated_list letDecl>> blockOrBar
        | block
        | LBRACE <<comma_separated_list decl>> blockOrBar RBRACE
 
-decl ::= [PRIVATE] [DISJ] <<comma_separated_list name_rule>> COLON [DISJ] expr
+decl ::= [PRIVATE] [DISJ] <<comma_separated_list name_rule>> COLON [DISJ] expr {
+    implements="edu.rit.csci746.alloyplugin.psi.AlloyNamedElement"
+    mixin="edu.rit.csci746.alloyplugin.psi.ext.AlloyNamedElementMixin"
+}
 
-letDecl ::= name_rule EQUALS expr
+letDecl ::= name_rule EQUALS expr {
+    implements="edu.rit.csci746.alloyplugin.psi.AlloyNamedElement"
+    mixin="edu.rit.csci746.alloyplugin.psi.ext.AlloyNamedElementMixin"
+}
 
 quant ::= ALL | NO | SOME | LONE | ONE | SUM
 

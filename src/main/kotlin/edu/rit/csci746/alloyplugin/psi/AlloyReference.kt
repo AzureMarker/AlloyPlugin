@@ -9,7 +9,7 @@ class AlloyReference(element: PsiElement, rangeInElement: TextRange?) :
     PsiReferenceBase<PsiElement>(element, rangeInElement) {
 
     override fun resolve(): PsiElement? {
-        return AlloyUtil.findSigDeclaration(
+        return AlloyUtil.findDeclaration(
             element.project,
             element.text
         )
