@@ -17,7 +17,7 @@
 
 specification ::= [module_rule] open_rule* paragraph*
 
-meta comma_separated_list ::= <<param>> ( COMMA <<param>> ) *
+private meta comma_separated_list ::= <<param>> ( COMMA <<param>> ) *
 
 module_rule ::= MODULE name_rule  [ LBRACKET  [EXACTLY] name_rule  (COMMA [EXACTLY] num)*    RBRACKET ]
 
