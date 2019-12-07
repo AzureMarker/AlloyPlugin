@@ -42,7 +42,7 @@ funDecl ::= [PRIVATE] FUN [ref DOT] name_rule LPAREN <<comma_separated_list decl
           | [PRIVATE] PRED [ref DOT] name_rule LBRACKET <<comma_separated_list decl>> RBRACKET block
           | [PRIVATE] PRED [ref DOT] name_rule block {
     implements="edu.rit.csci746.alloyplugin.psi.AlloyNamedElement"
-    mixin="edu.rit.csci746.alloyplugin.psi.ext.AlloyNamedElementMixin"
+    mixin="edu.rit.csci746.alloyplugin.psi.ext.AlloyNamedDeclListMixin"
 }
 
 cmdDecl ::= [name_rule COLON] (RUN|CHECK) (name_rule|block) [scope] {
@@ -59,7 +59,7 @@ typescope ::= [EXACTLY] NUMBER [name_rule|INT|SEQ]
 
 sigDecl ::= sigQual* SIG <<comma_separated_list name_rule>> [sigExt] LBRACE <<comma_separated_list decl>>? RBRACE [block] {
     implements="edu.rit.csci746.alloyplugin.psi.AlloyNamedElement"
-    mixin="edu.rit.csci746.alloyplugin.psi.ext.AlloyNamedElementMixin"
+    mixin="edu.rit.csci746.alloyplugin.psi.ext.AlloyNamedDeclListMixin"
 }
 
 enumDecl ::= ENUM name_rule LBRACE <<comma_separated_list name_rule>>  RBRACE {
@@ -97,7 +97,9 @@ terminal_expr ::= LET <<comma_separated_list letDecl>> blockOrBar
        | LPAREN expr RPAREN
        | [AT] name_rule
        | block
-       | LBRACE <<comma_separated_list decl>> blockOrBar RBRACE
+       | LBRACE <<comma_separated_list decl>> blockOrBar RBRACE {
+    mixin="edu.rit.csci746.alloyplugin.psi.ext.AlloyTerminalExprMixin"
+}
 
 decl ::= [PRIVATE] [DISJ] <<comma_separated_list name_rule>> COLON [DISJ] expr {
     implements="edu.rit.csci746.alloyplugin.psi.AlloyNamedElement"

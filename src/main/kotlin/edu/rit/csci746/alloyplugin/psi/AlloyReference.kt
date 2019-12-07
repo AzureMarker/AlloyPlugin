@@ -11,6 +11,7 @@ class AlloyReference(element: PsiElement, rangeInElement: TextRange?) :
     override fun resolve(): PsiElement? {
         return AlloyUtil.findDeclaration(
             element.project,
+            element,
             element.text
         )
     }
