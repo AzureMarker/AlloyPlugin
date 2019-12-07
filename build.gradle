@@ -61,6 +61,8 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 patchPluginXml {
+    untilBuild "2019.3.*"
+
     changeNotes """
       <b>0.1.0</b><br>
       Initial release of the Alloy plugin
