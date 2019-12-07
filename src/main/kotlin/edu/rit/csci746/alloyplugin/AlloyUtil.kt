@@ -23,6 +23,7 @@ object AlloyUtil {
             .flatMap { file ->
                 val decls = mutableListOf<AlloyNamedElement>()
 
+                // Get the in-scope decls
                 PsiTreeUtil.treeWalkUp(
                     { psiElement: PsiElement, _: ResolveState ->
                         if (psiElement is AlloyDecl) decls += psiElement
@@ -35,6 +36,10 @@ object AlloyUtil {
                 )
 
                 val sigs = PsiTreeUtil.findChildrenOfType(file, AlloySigDecl::class.java)
+
+                // Get the attribute decls of each sig
+                decls += sigs.flatMap { PsiTreeUtil.getChildrenOfTypeAsList(it, AlloyDecl::class.java) }
+
                 val facts = PsiTreeUtil.findChildrenOfType(file, AlloyFactDecl::class.java)
                 val asserts = PsiTreeUtil.findChildrenOfType(file, AlloyAssertDecl::class.java)
                 val functions = PsiTreeUtil.findChildrenOfType(file, AlloyFunDecl::class.java)
