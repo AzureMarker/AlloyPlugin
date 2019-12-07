@@ -4,7 +4,7 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiReference
-import edu.rit.csci746.alloyplugin.psi.AlloyReference
+import edu.rit.csci746.alloyplugin.resolve.AlloyReference
 
 abstract class AlloyNameRuleMixin(node: ASTNode) : ASTWrapperPsiElement(node) {
     override fun getReference(): PsiReference? {
