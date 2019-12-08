@@ -1,4 +1,4 @@
-package edu.rit.csci746.alloyplugin
+package edu.rit.csci746.alloyplugin.runconfig
 
 import com.intellij.execution.configurations.ConfigurationFactory
 import com.intellij.execution.configurations.ConfigurationTypeBase
@@ -15,7 +15,11 @@ class AlloyCommandConfigurationType : ConfigurationTypeBase(
     init {
         addFactory(object : ConfigurationFactory(this) {
             override fun createTemplateConfiguration(project: Project): RunConfiguration =
-                AlloyCommandConfiguration(project, this, "Alloy")
+                AlloyCommandConfiguration(
+                    project,
+                    this,
+                    "Alloy"
+                )
         })
     }
 }

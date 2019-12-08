@@ -1,4 +1,4 @@
-package edu.rit.csci746.alloyplugin
+package edu.rit.csci746.alloyplugin.runconfig
 
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.options.SettingsEditor
@@ -9,6 +9,8 @@ import com.intellij.ui.components.Label
 import com.intellij.ui.layout.LayoutBuilder
 import com.intellij.ui.layout.Row
 import com.intellij.ui.layout.panel
+import edu.rit.csci746.alloyplugin.AlloyFileType
+import edu.rit.csci746.alloyplugin.AlloyUtil
 import javax.swing.JComponent
 
 class AlloyCommandConfigurationEditor(private val project: Project) : SettingsEditor<AlloyCommandConfiguration>() {

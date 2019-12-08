@@ -19,7 +19,7 @@
                 implementationClass="edu.rit.csci746.alloyplugin.AlloyParserDefinition"/>
 
         <configurationType
-                implementation="edu.rit.csci746.alloyplugin.AlloyCommandConfigurationType" />
+                implementation="edu.rit.csci746.alloyplugin.runconfig.AlloyCommandConfigurationType" />
 
         <lang.syntaxHighlighterFactory
                 language="Alloy"

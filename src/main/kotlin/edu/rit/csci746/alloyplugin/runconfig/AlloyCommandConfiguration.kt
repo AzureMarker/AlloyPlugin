@@ -1,4 +1,4 @@
-package edu.rit.csci746.alloyplugin
+package edu.rit.csci746.alloyplugin.runconfig
 
 import com.intellij.execution.Executor
 import com.intellij.execution.configurations.*
