@@ -21,8 +21,13 @@ class AlloyCommandConfiguration(
     override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration> =
         AlloyCommandConfigurationEditor(project)
 
-    override fun getState(executor: Executor, environment: ExecutionEnvironment): RunProfileState? =
-        RunProfileState { _, _ ->
+    override fun getState(executor: Executor, environment: ExecutionEnvironment): RunProfileState? {
+        // Validate the parameters before executing
+        if (runParams.filePath.isEmpty() || runParams.commandName.isEmpty()) {
+            return null
+        }
+
+        return RunProfileState { _, _ ->
             val world = CompUtil.parseEverything_fromFile(
                 null,
                 null,
@@ -52,6 +57,7 @@ class AlloyCommandConfiguration(
 
             null
         }
+    }
 
     override fun writeExternal(element: Element) {
         super.writeExternal(element)
