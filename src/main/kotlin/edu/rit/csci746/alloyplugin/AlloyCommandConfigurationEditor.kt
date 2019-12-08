@@ -57,7 +57,7 @@ class AlloyCommandConfigurationEditor(private val project: Project) : SettingsEd
     }
 
     override fun resetEditorFrom(s: AlloyCommandConfiguration) {
-        s.runParams?.let {
+        s.runParams.let {
             fileBrowser.text = it.filePath
             updateComboBox()
             commandSelection.selectedItem = it.commandName

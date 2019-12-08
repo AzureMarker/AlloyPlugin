@@ -1,10 +1,7 @@
 package edu.rit.csci746.alloyplugin
 
 import com.intellij.execution.Executor
-import com.intellij.execution.configurations.ConfigurationFactory
-import com.intellij.execution.configurations.RunConfiguration
-import com.intellij.execution.configurations.RunConfigurationBase
-import com.intellij.execution.configurations.RunProfileState
+import com.intellij.execution.configurations.*
 import com.intellij.execution.runners.ExecutionEnvironment
 import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.project.Project
@@ -19,14 +16,13 @@ class AlloyCommandConfiguration(
     factory: ConfigurationFactory?,
     name: String
 ) : RunConfigurationBase<Any>(project, factory, name) {
-    var runParams: RunParams? = null
+    var runParams = RunParams("", "")
 
     override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration> =
         AlloyCommandConfigurationEditor(project)
 
     override fun getState(executor: Executor, environment: ExecutionEnvironment): RunProfileState? =
         RunProfileState { _, _ ->
-            val runParams = runParams ?: return@RunProfileState null
             val world = CompUtil.parseEverything_fromFile(
                 null,
                 null,
@@ -59,16 +55,27 @@ class AlloyCommandConfiguration(
 
     override fun writeExternal(element: Element) {
         super.writeExternal(element)
-        element.writeString("path", runParams?.filePath)
-        element.writeString("command", runParams?.commandName)
+
+        element.writeString("path", runParams.filePath)
+        element.writeString("command", runParams.commandName)
     }
 
     override fun readExternal(element: Element) {
         super.readExternal(element)
         runParams = RunParams(
-            filePath = element.readString("path") ?: return,
-            commandName = element.readString("command") ?: return
+            filePath = element.readString("path") ?: "",
+            commandName = element.readString("command") ?: ""
         )
+    }
+
+    override fun checkConfiguration() {
+        if (runParams.filePath.isEmpty()) {
+            throw RuntimeConfigurationException("The file path must not be empty")
+        }
+
+        if (runParams.commandName.isEmpty()) {
+            throw RuntimeConfigurationException("Choose a command to execute")
+        }
     }
 
     data class RunParams(
@@ -77,7 +84,7 @@ class AlloyCommandConfiguration(
     )
 }
 
-private fun Element.writeString(name: String, value: String?) {
+private fun Element.writeString(name: String, value: String) {
     val opt = Element("option")
     opt.setAttribute("name", name)
     opt.setAttribute("value", value)
