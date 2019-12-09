@@ -45,8 +45,11 @@ class AlloyStructureViewElement(val psi: PsiElement) : StructureViewTreeElement,
     private val childElements: List<PsiElement>
         get() = when (psi) {
             is PsiFile ->
-                PsiTreeUtil.findChildrenOfType(psi, AlloySigDecl::class.java)
-                    .toList()
+                PsiTreeUtil.findChildrenOfAnyType(
+                    psi,
+                    AlloySigDecl::class.java,
+                    AlloyFactDecl::class.java
+                ).toList()
             else -> emptyList()
         }
 
