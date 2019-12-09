@@ -1,11 +1,12 @@
 package edu.rit.csci746.alloyplugin
 
-import edu.mit.csail.sdg.ast.Command
-import edu.mit.csail.sdg.parser.CompUtil
+import com.intellij.psi.PsiElement
+import com.intellij.psi.util.PsiUtilCore
+import edu.rit.csci746.alloyplugin.psi.AlloyTypes
 
 object AlloyUtil {
-    fun getCommandsFromFile(path: String): List<Command> {
-        val world = CompUtil.parseEverything_fromFile(null, null, path)
-        return world.allCommands
+    fun isAlloyCommand(element: PsiElement): Boolean {
+        val elementType = PsiUtilCore.getElementType(element)
+        return elementType == AlloyTypes.RUN || elementType == AlloyTypes.CHECK
     }
 }

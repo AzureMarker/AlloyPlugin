@@ -9,8 +9,8 @@ import com.intellij.ui.components.Label
 import com.intellij.ui.layout.LayoutBuilder
 import com.intellij.ui.layout.Row
 import com.intellij.ui.layout.panel
+import edu.mit.csail.sdg.parser.CompUtil
 import edu.rit.csci746.alloyplugin.AlloyFileType
-import edu.rit.csci746.alloyplugin.AlloyUtil
 import javax.swing.JComponent
 
 class AlloyCommandConfigurationEditor(private val project: Project) : SettingsEditor<AlloyCommandConfiguration>() {
@@ -44,7 +44,8 @@ class AlloyCommandConfigurationEditor(private val project: Project) : SettingsEd
 
         commandSelection.removeAllItems()
 
-        val commands = AlloyUtil.getCommandsFromFile(path)
+        val world = CompUtil.parseEverything_fromFile(null, null, path)
+        val commands = world.allCommands
 
         commands
             .map { command -> command.toString() }
@@ -52,9 +53,13 @@ class AlloyCommandConfigurationEditor(private val project: Project) : SettingsEd
     }
 
     override fun applyEditorTo(s: AlloyCommandConfiguration) {
-        s.runParams = AlloyCommandConfiguration.RunParams(
-            filePath = fileBrowser.text,
-            commandName = commandSelection.selectedItem as? String ?: return
+        val commandName = commandSelection.selectedItem as? String ?: return
+
+        s.applyParams(
+            AlloyCommandConfiguration.RunParams(
+                filePath = fileBrowser.text,
+                commandName = commandName
+            )
         )
     }
 

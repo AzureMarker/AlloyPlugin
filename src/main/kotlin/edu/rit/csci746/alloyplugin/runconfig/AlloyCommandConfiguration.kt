@@ -13,10 +13,20 @@ import org.jdom.Element
 
 class AlloyCommandConfiguration(
     project: Project,
-    factory: ConfigurationFactory?,
+    factory: ConfigurationFactory,
     name: String
-) : RunConfigurationBase<Any>(project, factory, name) {
+) : LocatableConfigurationBase<Any>(project, factory, name) {
     var runParams = RunParams("", "")
+        private set
+
+    fun initializeWithParams(runParams: RunParams) {
+        name = runParams.commandName
+        this.runParams = runParams
+    }
+
+    fun applyParams(runParams: RunParams) {
+        this.runParams = runParams
+    }
 
     override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration> =
         AlloyCommandConfigurationEditor(project)

@@ -2,6 +2,7 @@ package edu.rit.csci746.alloyplugin.runconfig
 
 import com.intellij.execution.configurations.ConfigurationFactory
 import com.intellij.execution.configurations.ConfigurationTypeBase
+import com.intellij.execution.configurations.ConfigurationTypeUtil
 import com.intellij.execution.configurations.RunConfiguration
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.project.Project
@@ -21,5 +22,12 @@ class AlloyCommandConfigurationType : ConfigurationTypeBase(
                     "Alloy"
                 )
         })
+    }
+
+    val factory: ConfigurationFactory get() = configurationFactories.single()
+
+    companion object {
+        fun getInstance(): AlloyCommandConfigurationType =
+            ConfigurationTypeUtil.findConfigurationType(AlloyCommandConfigurationType::class.java)
     }
 }

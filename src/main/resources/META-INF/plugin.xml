@@ -19,7 +19,14 @@
                 implementationClass="edu.rit.csci746.alloyplugin.AlloyParserDefinition"/>
 
         <configurationType
-                implementation="edu.rit.csci746.alloyplugin.runconfig.AlloyCommandConfigurationType" />
+                implementation="edu.rit.csci746.alloyplugin.runconfig.AlloyCommandConfigurationType"/>
+
+        <runLineMarkerContributor
+                language="Alloy"
+                implementationClass="edu.rit.csci746.alloyplugin.runconfig.AlloyCommandRunLineMarkerContributor"/>
+
+        <runConfigurationProducer
+                implementation="edu.rit.csci746.alloyplugin.runconfig.AlloyCommandRunConfigurationProducer"/>
 
         <lang.syntaxHighlighterFactory
                 language="Alloy"
