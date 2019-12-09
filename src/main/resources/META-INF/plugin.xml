@@ -33,5 +33,9 @@
         <lang.syntaxHighlighterFactory
                 language="Alloy"
                 implementationClass="edu.rit.csci746.alloyplugin.AlloySyntaxHighlighterFactory"/>
+
+        <lang.psiStructureViewFactory
+                language="Alloy"
+                implementationClass="edu.rit.csci746.alloyplugin.structure.AlloyStructureViewFactory"/>
     </extensions>
 </idea-plugin>
